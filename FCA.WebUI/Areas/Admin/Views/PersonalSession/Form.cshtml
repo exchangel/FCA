@@ -1,0 +1,74 @@
+﻿@model SessionFormViewModel
+
+<div class="row">
+    <div class="col-8 offset-2">
+
+        <div class="card-header fw-bold fs-5">
+            Seans Formu
+        </div>
+
+        <div class="card-body">
+            <form method="post" asp-area="Admin" asp-controller="PersonalSession" asp-action="Save">
+
+                <input asp-for="Id" type="" />
+
+                <div class="mb-2">
+                    <label asp-for="SessionName"></label>
+                    <input asp-for="SessionName" type="text" class="form-control" />
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="SessionName"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" type="text" class="form-control" />
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Price"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="Note"></label>
+                    <input asp-for="Note" type="text" class="form-control" />
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Note"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="CustomerId"></label>
+                    <select asp-items="@(new SelectList(ViewBag.Customers , "Id" ,"FirstName"))" asp-for="CustomerId" class="form-control">
+                        <option selected disabled>Seçiniz</option>
+                    </select>
+
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.CustomerError))
+                    {
+                        <span class="text-danger fw-bold mt-1">@ViewBag.CustomerError</span>
+                    }
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="UserId"></label>
+                    <select asp-items="@(new SelectList(ViewBag.Users , "Id" ,"FirstName"))" asp-for="UserId" class="form-control">
+                        <option selected disabled>Seçiniz</option>
+                    </select>
+
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.UserError))
+                    {
+                        <span class="text-danger fw-bold mt-1">@ViewBag.UserError</span>
+                    }
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="SessionDate"></label>
+                    <input asp-for="SessionDate" type="date" class="form-control" />
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="SessionDate"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3 float-end">Formu Gönder</button>
+
+            </form>
+
+
+
+
+
+        </div>
+
+    </div>
+</div>

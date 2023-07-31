@@ -1,0 +1,112 @@
+﻿@model List<SessionListViewModel>
+
+<div>
+    <div class="float-start"> <h2>Seanslar</h2> </div>
+    <div class="float-end"> <a asp-controller="PersonalSession" asp-action="New" class="btn btn-warning">Yeni Seans</a> </div>
+</div>
+
+<table id="sessionTable" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Seans Adı</th>
+            <th>Koç</th>
+            <th>Müşteri</th>
+            <th>Tarih</th>
+            <th>Notlar</th>
+            <th>Eylemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.SessionName
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.CustomerName
+                </td>
+                <td>
+                    @item.SessionDate
+                </td>
+                <td>
+                    @item.Note
+                </td>
+                <td>
+                    <a asp-area="admin" asp-controller="PersonalSession" asp-action="Edit" asp-route-id="@item.Id" class=" btn btn-primary">Düzenle</a>
+
+
+
+                    <a class="btn btn-danger btnDelete" data-name="sil" data-id="@item.Id">Sil</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        var table = new DataTable('#sessionTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/tr.json',
+            },
+            pageLength: 10
+        });
+
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'maxWidth': 400,
+            'maxHeight': 400,
+            'fitImagesInViewPort': true
+            
+        })
+
+        $('.btnDelete').click(function (e) {
+
+            e.preventDefault(); // linkin yönlendirme işlemini engelledim. (url'e # atmıyor.)
+
+            var sessionId = $(this).data('id'); // Butonun içerisine data-id şeklinde gömülen veriyi değişkene atadım.
+
+
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Dikkat! Seans silinecektir.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet, Onaylıyorum!',
+                cancelButtonText: 'İptal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: '/admin/personalsession/delete/' + sessionId,
+                        method: 'GET'
+                        // url üzerinden istek attım.
+                    }).done(function () {
+                        Swal.fire(
+                            'Silindi!',
+                            'Seans başarıyla silindi.',
+                            'success'
+                        ).then(() => { window.location.reload() })
+                    }).fail(function () {
+                        Swal.fire(
+                            'Hata!',
+                            'Seans silinirken bir hata ile karşılaşıldı. Silme işlemi gerçekleşemedi.',
+                            'error'
+                        )
+                    })
+                }
+            })
+
+
+
+
+        })
+    </script>
+}

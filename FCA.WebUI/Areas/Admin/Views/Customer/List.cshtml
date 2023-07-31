@@ -1,0 +1,57 @@
+﻿@model List<CustomerListViewModel>
+
+<div>
+
+    <div class="float-start"> <h2>Müşteriler</h2> </div>
+    <div class="float-end"> <a asp-controller="Customer" asp-action="New" class="btn btn-warning">Yeni Müşteri</a> </div>
+
+</div>
+
+<table id="customerTable" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Sıra</th>
+            <th>Ad Soyad</th>
+            <th>Şehir</th>
+            <th>İlgi</th>
+            <th>Numara</th>
+            <th>Eylemler</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+                <td>@(item.FirstName + " " + item.LastName)</td>
+                <td>@item.City</td>
+                <td>@item.Interest</td>
+                <td>@item.Phone</td>
+                <td>
+                    <a class="btn btn-primary" asp-area="Admin" asp-controller="Customer" asp-action="Update" asp-route-id="@item.Id">Düzenle</a>
+                    <a class="btn btn-danger" asp-area="Admin" asp-controller="Customer" asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+    var table = new DataTable('#customerTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/tr.json',
+            },
+            pageLength: 10
+        });
+
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'maxWidth': 400,
+            'maxHeight': 400,
+            'fitImagesInViewPort': true
+
+        })
+    </script>
+}

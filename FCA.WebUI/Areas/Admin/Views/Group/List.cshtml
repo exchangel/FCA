@@ -1,0 +1,47 @@
+﻿@model List<GroupListViewModel>
+
+<div>
+    <div class="float-start"> <h2>Eğitimler</h2> </div>
+    <div class="float-end"> <a asp-controller="Group" asp-action="New" class="btn btn-warning">Yeni Grup</a> </div>
+</div>
+
+<table id="groupTable" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Grup Adı</th>
+            <th>Koç</th>
+            <th>Müşteri Sayısı</th>
+            <th>Başlangıç Tarihi</th>
+            <th>Notlar</th>
+            <th>Eylemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.CustomerCount        
+                </td>
+                <td>
+                    @item.StartDate
+                </td>
+                <td>
+                    @item.Note
+                </td>
+                <td>
+                    <a asp-area="admin" asp-controller="Group" asp-action="Edit" asp-route-id="@item.Id" class=" btn btn-primary">Düzenle</a>
+
+                    <a class="btn btn-danger btnDelete" data-name="sil" data-id="@item.Id">Sil</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
